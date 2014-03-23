@@ -220,7 +220,9 @@ LookupProcessor::LookupProcessor(const LETableReference &baseAddress,
 
     if (requiredFeatureIndex != 0xFFFF) {
       requiredFeatureTable = featureListTable->getFeatureTable(featureListTable, requiredFeatureIndex, &requiredFeatureTag, success);
-      featureReferences += SWAPW(featureTable->lookupCount);
+      if (requiredFeatureTable.isValid()) {
+        featureReferences += SWAPW(requiredFeatureTable->lookupCount);
+      }
     }
 
     lookupOrderArray = LE_NEW_ARRAY(le_uint16, featureReferences);
