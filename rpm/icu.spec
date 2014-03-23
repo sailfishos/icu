@@ -6,7 +6,6 @@ Group:     Development/Tools
 License:   MIT and UCD and Public Domain
 URL:       http://www.icu-project.org/
 Source0:   %{name}-%{version}.tar.gz
-Source1:   icu-config.sh
 BuildRequires: autoconf, python
 Requires: lib%{name}%{?_isa} = %{version}-%{release}
 
@@ -90,11 +89,6 @@ rm -rf $RPM_BUILD_ROOT source/__docs
 make %{?_smp_mflags} -C source install DESTDIR=$RPM_BUILD_ROOT
 make %{?_smp_mflags} -C source install-doc docdir=__docs
 chmod +x $RPM_BUILD_ROOT%{_libdir}/*.so.*
-(
- cd $RPM_BUILD_ROOT%{_bindir}
- mv icu-config icu-config-%{__isa_bits}
-)
-install -p -m755 -D %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}/icu-config
 
 %check
 # test to ensure that -j(X>1) didn't "break" man pages. b.f.u #2357
@@ -140,7 +134,6 @@ make %{?_smp_mflags} -C source check
 %{_bindir}/%{name}-config*
 %{_bindir}/icuinfo
 %{_mandir}/man1/%{name}-config.1*
-%{_mandir}/man1/icuinfo.1*
 %{_includedir}/layout
 %{_includedir}/unicode
 %{_libdir}/*.so
@@ -156,4 +149,3 @@ make %{?_smp_mflags} -C source check
 %files -n lib%{name}-doc
 %defattr(-,root,root,-)
 %doc license.html readme.html
-%doc source/__docs/%{name}/html/*
