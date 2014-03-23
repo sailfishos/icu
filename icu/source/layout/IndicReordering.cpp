@@ -13,6 +13,7 @@
 
 U_NAMESPACE_BEGIN
 
+#define ccmpFeatureTag LE_CCMP_FEATURE_TAG
 #define loclFeatureTag LE_LOCL_FEATURE_TAG
 #define initFeatureTag LE_INIT_FEATURE_TAG
 #define nuktFeatureTag LE_NUKT_FEATURE_TAG
@@ -35,6 +36,7 @@ U_NAMESPACE_BEGIN
 #define caltFeatureTag LE_CALT_FEATURE_TAG
 #define kernFeatureTag LE_KERN_FEATURE_TAG
 
+#define ccmpFeatureMask 0x00000001UL
 #define loclFeatureMask 0x80000000UL
 #define rphfFeatureMask 0x40000000UL
 #define blwfFeatureMask 0x20000000UL
@@ -73,7 +75,7 @@ U_NAMESPACE_BEGIN
 
 #define repositionedGlyphMask   0x00000002UL
 
-#define basicShapingFormsMask ( loclFeatureMask | nuktFeatureMask | akhnFeatureMask | rkrfFeatureMask | blwfFeatureMask | halfFeatureMask | vatuFeatureMask | cjctFeatureMask )
+#define basicShapingFormsMask ( ccmpFeatureMask | loclFeatureMask | nuktFeatureMask | akhnFeatureMask | rkrfFeatureMask | blwfFeatureMask | halfFeatureMask | vatuFeatureMask | cjctFeatureMask )
 #define positioningFormsMask ( kernFeatureMask | distFeatureMask | abvmFeatureMask | blwmFeatureMask )
 #define presentationFormsMask ( presFeatureMask | abvsFeatureMask | blwsFeatureMask | pstsFeatureMask | halnFeatureMask | caltFeatureMask )
 
@@ -515,6 +517,7 @@ public:
 #define tagArray0 (rphfFeatureMask | tagArray1)
 
 static const FeatureMap featureMap[] = {
+    {ccmpFeatureTag, ccmpFeatureMask},
     {loclFeatureTag, loclFeatureMask},
     {initFeatureTag, initFeatureMask},
     {nuktFeatureTag, nuktFeatureMask},
@@ -537,6 +540,7 @@ static const FeatureMap featureMap[] = {
 static const le_int32 featureCount = LE_ARRAY_SIZE(featureMap);
 
 static const FeatureMap v2FeatureMap[] = {
+    {ccmpFeatureTag, ccmpFeatureMask},
 	{loclFeatureTag, loclFeatureMask},
     {nuktFeatureTag, nuktFeatureMask},
     {akhnFeatureTag, akhnFeatureMask},
