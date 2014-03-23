@@ -149,7 +149,7 @@ void DataDrivenFormatTest::testConvertDate(TestData *testData,
         DateFormat *format = NULL;
         
         // Process: 'locale'
-        locale.extract(0, locale.length(), calLoc, (const char*)0); // default codepage.  Invariant codepage doesn't have '@'!
+        locale.extract(0, locale.length(), calLoc, sizeof(calLoc)-1, (const char*)0); // default codepage.  Invariant codepage doesn't have '@'!
         Locale loc(calLoc);
         if(spec.startsWith(kPATTERN)) {
             pattern = UnicodeString(spec,kPATTERN.length());
@@ -323,7 +323,7 @@ void DataDrivenFormatTest::processTest(TestData *testData) {
                 logln("---");
             }
             logln(testSetting + "---");
-            testSetting.extract(0, testSetting.length(), testType, "");
+            testSetting.extract(0, testSetting.length(), testType, sizeof(testType)-1, "");
         } else {
             errln("Unable to extract 'Type'. Skipping..");
             continue;

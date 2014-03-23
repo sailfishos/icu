@@ -114,7 +114,7 @@ void DataDrivenCalendarTest::testOps(TestData *testData,
                     + UnicodeString(" - "));
             continue;
         }
-        testSetting.extract(0, testSetting.length(), toCalLoc, (const char*)0);
+        testSetting.extract(0, testSetting.length(), toCalLoc, sizeof(toCalLoc)-1, (const char*)0);
         fromCalendar = Calendar::createInstance(toCalLoc, status);
         if (U_FAILURE(status)) {
             errln(caseString+": Unable to instantiate calendar for "
@@ -371,7 +371,7 @@ void DataDrivenCalendarTest::testConvert(TestData *testData,
     // build to calendar
     UnicodeString testSetting = settings->getString("ToCalendar", status);
     if (U_SUCCESS(status)) {
-        testSetting.extract(0, testSetting.length(), toCalLoc, (const char*)0);
+        testSetting.extract(0, testSetting.length(), toCalLoc, sizeof(toCalLoc)-1, (const char*)0);
         toCalendar = Calendar::createInstance(toCalLoc, status);
         if (U_FAILURE(status)) {
             dataerrln(UnicodeString("Unable to instantiate ToCalendar for ")+testSetting);
@@ -394,7 +394,7 @@ void DataDrivenCalendarTest::testConvert(TestData *testData,
         Calendar *fromCalendar= NULL;
         UnicodeString locale = currentCase->getString("locale", status);
         if (U_SUCCESS(status)) {
-            locale.extract(0, locale.length(), fromCalLoc, (const char*)0); // default codepage.  Invariant codepage doesn't have '@'!
+            locale.extract(0, locale.length(), fromCalLoc, sizeof(fromCalLoc)-1, (const char*)0); // default codepage.  Invariant codepage doesn't have '@'!
             fromCalendar = Calendar::createInstance(fromCalLoc, status);
             if (U_FAILURE(status)) {
                 errln("Unable to instantiate fromCalendar for "+locale);
@@ -464,7 +464,7 @@ void DataDrivenCalendarTest::processTest(TestData *testData) {
                 logln("---");
             }
             logln(testSetting + "---");
-            testSetting.extract(0, testSetting.length(), testType, "");
+            testSetting.extract(0, testSetting.length(), testType, sizeof(testType)-1, "");
         } else {
             errln("Unable to extract 'Type'. Skipping..");
             continue;

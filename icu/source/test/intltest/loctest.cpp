@@ -623,7 +623,7 @@ public:
     {
       char *ch;
       ch = new char[l.length() + 1];
-      ch[l.extract(0, 0x7fffffff, ch, "")] = 0;
+      ch[l.extract(0, 0x7fffffff, ch, l.length(), "")] = 0;
       setFromPOSIXID(ch);
       delete [] ch;
     }

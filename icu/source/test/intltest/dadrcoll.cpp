@@ -179,7 +179,7 @@ DataDrivenCollatorTest::processTest(TestData *testData) {
     testSetting = settings->getString("TestLocale", intStatus);
     if(U_SUCCESS(intStatus)) {
       char localeName[256];
-      testSetting.extract(0, testSetting.length(), localeName, "");
+      testSetting.extract(0, testSetting.length(), localeName, sizeof(localeName)-1, "");
       col = Collator::createInstance(localeName, status);
       if(U_SUCCESS(status)) {
         logln("Testing collator for locale "+testSetting);
