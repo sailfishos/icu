@@ -1,5 +1,5 @@
 Name:      icu
-Version:   4.6
+Version:   4.6.1
 Release:   8
 Summary:   International Components for Unicode
 Group:     Development/Tools
