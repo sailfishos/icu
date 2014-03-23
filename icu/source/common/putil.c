@@ -182,24 +182,45 @@ static const BitPatternConversion gInf = { (int64_t) INT64_C(0x7FF0000000000000)
     can't be properly optimized by the gcc compiler sometimes (i.e. gcc 3.2).
 */
 #if !IEEE_754
-static char*
-u_topNBytesOfDouble(double* d, int n)
+static uint32_t
+u_topOfDoubleAsUint32(double d)
 {
-#if U_IS_BIG_ENDIAN
-    return (char*)d;
-#else
-    return (char*)(d + 1) - n;
-#endif
+    union 
+    {
+        double d;
+        uint32_t i[2];
+    } u;
+
+    u.d = d;
+    return u.i
+    [
+#  if U_IS_BIG_ENDIAN
+      0
+#  else
+      1
+#  endif
+    ];
 }
 
-static char*
-u_bottomNBytesOfDouble(double* d, int n)
+static uint32_t
+u_bottomOfDoubleAsUint32(double d)
 {
-#if U_IS_BIG_ENDIAN
-    return (char*)(d + 1) - n;
-#else
-    return (char*)d;
-#endif
+    union 
+    {
+        double d;
+        uint32_t i[2];
+    } u;
+
+    u.d = d;
+    return u.i
+    [
+#  if U_IS_BIG_ENDIAN
+      1
+#  else
+      0
+#  endif
+    ];
+ }
 }
 #endif   /* !IEEE_754 */
 
@@ -344,10 +365,8 @@ uprv_isNaN(double number)
     return (UBool)((convertedNumber.i64 & U_INT64_MAX) > gInf.i64);
 
 #elif defined(OS390)
-    uint32_t highBits = *(uint32_t*)u_topNBytesOfDouble(&number,
-                        sizeof(uint32_t));
-    uint32_t lowBits  = *(uint32_t*)u_bottomNBytesOfDouble(&number,
-                        sizeof(uint32_t));
+    uint32_t highBits = u_topOfDoubleAsUint32(number);
+    uint32_t lowBits  = u_bottomOfDoubleAsUint32(number);
 
     return ((highBits & 0x7F080000L) == 0x7F080000L) &&
       (lowBits == 0x00000000L);
@@ -369,10 +388,8 @@ uprv_isInfinite(double number)
     /* Infinity is exactly 0x7FF0000000000000U. */
     return (UBool)((convertedNumber.i64 & U_INT64_MAX) == gInf.i64);
 #elif defined(OS390)
-    uint32_t highBits = *(uint32_t*)u_topNBytesOfDouble(&number,
-                        sizeof(uint32_t));
-    uint32_t lowBits  = *(uint32_t*)u_bottomNBytesOfDouble(&number,
-                        sizeof(uint32_t));
+    uint32_t highBits = u_topOfDoubleAsUint32(number);
+    uint32_t lowBits  = u_bottomOfDoubleAsUint32(number);
 
     return ((highBits  & ~SIGN) == 0x70FF0000L) && (lowBits == 0x00000000L);
 
@@ -401,8 +418,7 @@ uprv_isNegativeInfinity(double number)
     return (UBool)(number < 0 && uprv_isInfinite(number));
 
 #else
-    uint32_t highBits = *(uint32_t*)u_topNBytesOfDouble(&number,
-                        sizeof(uint32_t));
+    uint32_t highBits = u_topOfDoubleAsUint32(number);
     return((highBits & SIGN) && uprv_isInfinite(number));
 
 #endif
