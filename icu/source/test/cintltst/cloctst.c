@@ -1,6 +1,6 @@
 /********************************************************************
  * COPYRIGHT:
- * Copyright (c) 1997-2010, International Business Machines Corporation and
+ * Copyright (c) 1997-2011, International Business Machines Corporation and
  * others. All Rights Reserved.
  ********************************************************************/
 /*****************************************************************************
@@ -3015,6 +3015,15 @@ const char* const basic_maximize_data[][2] = {
   }, {
     "zzz",
     ""
+  }, {
+     "de_u_co_phonebk",
+     "de_Latn_DE_U_CO_PHONEBK"
+  }, {
+     "de_Latn_u_co_phonebk",
+     "de_Latn_DE_U_CO_PHONEBK"
+  }, {
+     "de_Latn_DE_u_co_phonebk",
+     "de_Latn_DE_U_CO_PHONEBK"
   }
 };
 
@@ -3037,6 +3046,9 @@ const char* const basic_minimize_data[][2] = {
   }, {
     "und",
     ""
+  }, {
+    "en_Latn_US@calendar=gregorian",
+    "en@calendar=gregorian"
   }
 };
 
@@ -5113,6 +5125,10 @@ const char* const full_data[][3] = {
     "art_Moon_AQ",
     "",
     ""
+  }, {
+    "de@collation=phonebook",
+    "de_Latn_DE@collation=phonebook",
+    "de@collation=phonebook"
   }
 };
 
@@ -5396,6 +5412,7 @@ static void TestLikelySubtags()
 }
 
 const char* const locale_to_langtag[][3] = {
+    {"@x=elmer",    "x-elmer",      "x-elmer"},
     {"",            "und",          "und"},
     {"en",          "en",           "en"},
     {"en_US",       "en-US",        "en-US"},
@@ -5430,6 +5447,9 @@ const char* const locale_to_langtag[][3] = {
     {"it@collation=badcollationtype;colStrength=identical;cu=usd-eur", "it-u-ks-identic",  NULL},
     {"en_US_POSIX", "en-US-u-va-posix", "en-US-u-va-posix"},
     {"en_US_POSIX@calendar=japanese;currency=EUR","en-US-u-ca-japanese-cu-EUR-va-posix", "en-US-u-ca-japanese-cu-EUR-va-posix"},
+    {"@x=elmer",    "x-elmer",      "x-elmer"},
+    {"en@x=elmer",  "en-x-elmer",   "en-x-elmer"},
+    {"@x=elmer;a=exta", "und-a-exta-x-elmer",   "und-a-exta-x-elmer"},
 
     {NULL,          NULL,           NULL}
 };
@@ -5527,6 +5547,7 @@ static const struct {
     {"en-us-u-tz-usnyc",    "en_US@timezone=America/New_York",      16},
     {"und-a-abc-def",       "und@a=abc-def",        13},
     {"zh-u-ca-chinese-x-u-ca-chinese",  "zh@calendar=chinese;x=u-ca-chinese",   30},
+    {"x-elmer",             "@x=elmer",             7},
     {NULL,          NULL,           0}
 };
 
