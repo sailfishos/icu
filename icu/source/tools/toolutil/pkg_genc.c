@@ -651,9 +651,13 @@ getArchitecture(uint16_t *pCPU, uint16_t *pBits, UBool *pIsBigEndian, const char
         /* set defaults */
 #ifdef U_ELF
         /* set EM_386 because elf.h does not provide better defaults */
+#ifdef __arm__
+        *pCPU=EM_ARM;
+#else
         *pCPU=EM_386;
+#endif
         *pBits=32;
-        *pIsBigEndian=(UBool)(U_IS_BIG_ENDIAN ? ELFDATA2MSB : ELFDATA2LSB);
+        *pIsBigEndian=(UBool)U_IS_BIG_ENDIAN;
 #elif defined(U_WINDOWS)
 /* _M_IA64 should be defined in windows.h */
 #   if defined(_M_IA64)
