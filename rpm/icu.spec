@@ -62,20 +62,21 @@ CXXFLAGS='%optflags -fno-strict-aliasing'
 CPPFLAGS='-DU_IS_BIG_ENDIAN=1'
 %endif
 #rhbz856594 do not use --disable-renaming or cope with the mess
-%configure --with-data-packaging=library --disable-samples
+#test
+%configure --with-data-packaging=library --disable-samples --disable-renaming
 #rhbz#225896
 sed -i 's|-nodefaultlibs -nostdlib||' config/mh-linux
 #rhbz#681941
-sed -i 's|^LIBS =.*|LIBS = -L../lib -licuuc -lpthread -lm|' i18n/Makefile
-sed -i 's|^LIBS =.*|LIBS = -nostdlib -L../lib -licuuc -licui18n -lc -lgcc|' io/Makefile
-sed -i 's|^LIBS =.*|LIBS = -nostdlib -L../lib -licuuc -lc|' layout/Makefile
-sed -i 's|^LIBS =.*|LIBS = -nostdlib -L../lib -licuuc -licule -lc|' layoutex/Makefile
-sed -i 's|^LIBS =.*|LIBS = -nostdlib -L../../lib -licutu -licuuc -lc|' tools/ctestfw/Makefile
-sed -i 's|^LIBS =.*|LIBS = -nostdlib -L../../lib -licui18n -licuuc -lpthread -lc|' tools/toolutil/Makefile
+#sed -i 's|^LIBS =.*|LIBS = -L../lib -licuuc -lpthread -lm|' i18n/Makefile
+#sed -i 's|^LIBS =.*|LIBS = -nostdlib -L../lib -licuuc -licui18n -lc -lgcc|' io/Makefile
+#sed -i 's|^LIBS =.*|LIBS = -nostdlib -L../lib -licuuc -lc|' layout/Makefile
+#sed -i 's|^LIBS =.*|LIBS = -nostdlib -L../lib -licuuc -licule -lc|' layoutex/Makefile
+#sed -i 's|^LIBS =.*|LIBS = -nostdlib -L../../lib -licutu -licuuc -lc|' tools/ctestfw/Makefile
+#sed -i 's|^LIBS =.*|LIBS = -nostdlib -L../../lib -licui18n -licuuc -lpthread -lc|' tools/toolutil/Makefile
 #rhbz#813484
-sed -i 's| \$(docfilesdir)/installdox||' Makefile
+#sed -i 's| \$(docfilesdir)/installdox||' Makefile
 # There is no source/doc/html/search/ directory
-sed -i '/^\s\+\$(INSTALL_DATA) \$(docsrchfiles) \$(DESTDIR)\$(docdir)\/\$(docsubsrchdir)\s*$/d' Makefile
+#sed -i '/^\s\+\$(INSTALL_DATA) \$(docsrchfiles) \$(DESTDIR)\$(docdir)\/\$(docsubsrchdir)\s*$/d' Makefile
 # rhbz#856594 The configure --disable-renaming and possibly other options
 # result in icu/source/uconfig.h.prepend being created, include that content in
 # icu/source/common/unicode/uconfig.h to propagate to consumer packages.
