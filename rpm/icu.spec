@@ -1,4 +1,4 @@
-Name:      icu
+Name:      icu52
 Version:   52.1
 Release:   10%{?dist}
 Summary:   International Components for Unicode
@@ -49,7 +49,7 @@ BuildArch: noarch
 # " this line just fixes syntax highlighting for vim that is confused by the above and continues literal
 
 %prep
-%setup -q -n %{name}-%{version}/%{name}
+%setup -q -n %{name}-%{version}/icu
 
 %build
 cd source
@@ -87,7 +87,7 @@ make %{?_smp_mflags}
 %install
 rm -rf $RPM_BUILD_ROOT source/__docs
 make %{?_smp_mflags} -C source install DESTDIR=$RPM_BUILD_ROOT
-make %{?_smp_mflags} -C source install-doc docdir=__docs
+#make %{?_smp_mflags} -C source install-doc docdir=__docs
 chmod +x $RPM_BUILD_ROOT%{_libdir}/*.so.*
 
 %check
@@ -131,20 +131,20 @@ make %{?_smp_mflags} -C source check
 
 %files -n lib%{name}-devel
 %defattr(-,root,root,-)
-%{_bindir}/%{name}-config*
+%{_bindir}/icu-config*
 %{_bindir}/icuinfo
-%{_mandir}/man1/%{name}-config.1*
+%{_mandir}/man1/icu-config.1*
 %{_includedir}/layout
 %{_includedir}/unicode
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/*.pc
-%{_libdir}/%{name}
-%dir %{_datadir}/%{name}
-%dir %{_datadir}/%{name}/%{version}
-%{_datadir}/%{name}/%{version}/install-sh
-%{_datadir}/%{name}/%{version}/mkinstalldirs
-%{_datadir}/%{name}/%{version}/config
-%doc %{_datadir}/%{name}/%{version}/license.html
+%{_libdir}/icu
+%dir %{_datadir}/icu
+%dir %{_datadir}/icu/%{version}
+%{_datadir}/icu/%{version}/install-sh
+%{_datadir}/icu/%{version}/mkinstalldirs
+%{_datadir}/icu/%{version}/config
+%doc %{_datadir}/icu/%{version}/license.html
 
 %files -n lib%{name}-doc
 %defattr(-,root,root,-)
