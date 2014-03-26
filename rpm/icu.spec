@@ -32,6 +32,7 @@ customize the supplied services.
 Summary:  Development files for International Components for Unicode
 Group:    Development/Libraries
 Requires: lib%{name}%{?_isa} = %{version}-%{release}
+Requires: %{name} = %{version}-%{release}
 Requires: pkgconfig
 
 %description -n lib%{name}-devel
