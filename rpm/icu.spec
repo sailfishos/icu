@@ -1,5 +1,6 @@
+%define upstream_version 52.1
 Name:      icu52
-Version:   52.1
+Version:   %{upstream_version}
 Release:   10%{?dist}
 Summary:   International Components for Unicode
 Group:     Development/Tools
@@ -141,11 +142,11 @@ make %{?_smp_mflags} -C source check
 %{_libdir}/pkgconfig/*.pc
 %{_libdir}/icu
 %dir %{_datadir}/icu
-%dir %{_datadir}/icu/%{version}
-%{_datadir}/icu/%{version}/install-sh
-%{_datadir}/icu/%{version}/mkinstalldirs
-%{_datadir}/icu/%{version}/config
-%doc %{_datadir}/icu/%{version}/license.html
+%dir %{_datadir}/icu/%{upstream_version}
+%{_datadir}/icu/%{upstream_version}/install-sh
+%{_datadir}/icu/%{upstream_version}/mkinstalldirs
+%{_datadir}/icu/%{upstream_version}/config
+%doc %{_datadir}/icu/%{upstream_version}/license.html
 
 %files -n lib%{name}-doc
 %defattr(-,root,root,-)
