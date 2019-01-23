@@ -7,7 +7,7 @@ Group:     Development/Tools
 License:   MIT and UCD and Public Domain
 URL:       http://www.icu-project.org/
 Source0:   %{name}-%{version}.tar.gz
-BuildRequires: autoconf, python
+BuildRequires: autoconf, python, doxygen
 Requires: lib%{name}%{?_isa} = %{version}-%{release}
 
 %description
