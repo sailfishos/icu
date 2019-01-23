@@ -45,7 +45,7 @@ Group:   Documentation
 BuildArch: noarch
 
 %description -n lib%{name}-doc
-%{summary}.
+Documentation and man pages for International Components for Unicode.
 
 %{!?endian: %global endian %(%{__python} -c "import sys;print (0 if sys.byteorder=='big' else 1)")}
 # " this line just fixes syntax highlighting for vim that is confused by the above and continues literal
@@ -84,12 +84,13 @@ sed -i 's|-nodefaultlibs -nostdlib||' config/mh-linux
 test -f uconfig.h.prepend && sed -e '/^#define __UCONFIG_H__/ r uconfig.h.prepend' -i common/unicode/uconfig.h
 
 make %{?_smp_mflags}
-#make %{?_smp_mflags} doc
+make %{?_smp_mflags} doc
 
 %install
 rm -rf $RPM_BUILD_ROOT source/__docs
 make %{?_smp_mflags} -C source install DESTDIR=$RPM_BUILD_ROOT
-#make %{?_smp_mflags} -C source install-doc docdir=__docs
+make %{?_smp_mflags} -C source install-doc \
+     docdir=$RPM_BUILD_ROOT/%{_docdir}/%{name}-%{version}
 chmod +x $RPM_BUILD_ROOT%{_libdir}/*.so.*
 
 %check
@@ -115,27 +116,16 @@ make %{?_smp_mflags} -C source check
 %{_bindir}/pkgdata
 %{_bindir}/uconv
 %{_sbindir}/*
-%{_mandir}/man1/derb.1*
-%{_mandir}/man1/gencfu.1*
-%{_mandir}/man1/gencnval.1*
-%{_mandir}/man1/gendict.1*
-%{_mandir}/man1/genrb.1*
-%{_mandir}/man1/genbrk.1*
-%{_mandir}/man1/makeconv.1*
-%{_mandir}/man1/pkgdata.1*
-%{_mandir}/man1/uconv.1*
-%{_mandir}/man8/*.8*
 
 %files -n lib%{name}
 %defattr(-,root,root,-)
-%doc license.html readme.html
+%license license.html
 %{_libdir}/*.so.*
 
 %files -n lib%{name}-devel
 %defattr(-,root,root,-)
 %{_bindir}/icu-config*
 %{_bindir}/icuinfo
-%{_mandir}/man1/icu-config.1*
 %{_includedir}/layout
 %{_includedir}/unicode
 %{_libdir}/*.so
@@ -146,8 +136,8 @@ make %{?_smp_mflags} -C source check
 %{_datadir}/icu/%{upstream_version}/install-sh
 %{_datadir}/icu/%{upstream_version}/mkinstalldirs
 %{_datadir}/icu/%{upstream_version}/config
-%doc %{_datadir}/icu/%{upstream_version}/license.html
 
 %files -n lib%{name}-doc
 %defattr(-,root,root,-)
-%doc license.html readme.html
+%{_mandir}/man*/*.*
+%{_docdir}/%{name}-%{version}
