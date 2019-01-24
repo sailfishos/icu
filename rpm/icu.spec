@@ -94,7 +94,7 @@ make %{?_smp_mflags} -C source install-doc \
 chmod +x $RPM_BUILD_ROOT%{_libdir}/*.so.*
 
 # Remove extra file
-rm %{_datadir}/icu/%{upstream_version}/license.html
+rm $RPM_BUILD_ROOT%{_datadir}/icu/%{upstream_version}/license.html
 
 %check
 # test to ensure that -j(X>1) didn't "break" man pages. b.f.u #2357
