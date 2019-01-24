@@ -93,6 +93,9 @@ make %{?_smp_mflags} -C source install-doc \
      docdir=$RPM_BUILD_ROOT/%{_docdir}/%{name}-%{version}
 chmod +x $RPM_BUILD_ROOT%{_libdir}/*.so.*
 
+# Remove extra file
+rm %{_datadir}/icu/%{upstream_version}/license.html
+
 %check
 # test to ensure that -j(X>1) didn't "break" man pages. b.f.u #2357
 if grep -q @VERSION@ source/tools/*/*.8 source/tools/*/*.1 source/config/*.1; then
