@@ -9,6 +9,7 @@ URL:       http://www.icu-project.org/
 Source0:   %{name}-%{version}.tar.gz
 BuildRequires: autoconf, python, doxygen
 Requires: lib%{name}%{?_isa} = %{version}-%{release}
+Obsoletes: icu52
 
 Patch1: 0001-disable-failing-test.patch
 # ICU-20246 - fixed in 63.2, 64.1
