@@ -1,7 +1,7 @@
-%define upstream_version 52.1
-Name:      icu52
+%define upstream_version 63.1
+Name:      icu
 Version:   %{upstream_version}
-Release:   10%{?dist}
+Release:   1
 Summary:   International Components for Unicode
 Group:     Development/Tools
 License:   MIT and UCD and Public Domain
@@ -9,6 +9,10 @@ URL:       http://www.icu-project.org/
 Source0:   %{name}-%{version}.tar.gz
 BuildRequires: autoconf, python, doxygen
 Requires: lib%{name}%{?_isa} = %{version}-%{release}
+
+Patch1: 0001-disable-failing-test.patch
+# ICU-20246 - fixed in 63.2, 64.1
+Patch2: ICU-20246-integer-overflow.patch
 
 %description
 Tools and utilities for developing with icu.
@@ -51,10 +55,12 @@ Documentation and man pages for International Components for Unicode.
 # " this line just fixes syntax highlighting for vim that is confused by the above and continues literal
 
 %prep
-%setup -q -n %{name}-%{version}/icu
+%setup -q -n %{name}-%{version}/upstream
+%patch1 -p1
+%patch2 -p1
 
 %build
-cd source
+cd icu4c/source
 autoconf
 CFLAGS='%optflags -fno-strict-aliasing'
 CXXFLAGS='%optflags -fno-strict-aliasing'
@@ -87,21 +93,18 @@ make %{?_smp_mflags}
 make %{?_smp_mflags} doc
 
 %install
-rm -rf $RPM_BUILD_ROOT source/__docs
-make %{?_smp_mflags} -C source install DESTDIR=$RPM_BUILD_ROOT
-make %{?_smp_mflags} -C source install-doc \
+rm -rf $RPM_BUILD_ROOT icu4c/source/__docs
+make %{?_smp_mflags} -C icu4c/source install DESTDIR=$RPM_BUILD_ROOT
+make %{?_smp_mflags} -C icu4c/source install-doc \
      docdir=$RPM_BUILD_ROOT/%{_docdir}/%{name}-%{version}
 chmod +x $RPM_BUILD_ROOT%{_libdir}/*.so.*
 
-# Remove extra file
-rm $RPM_BUILD_ROOT%{_datadir}/icu/%{upstream_version}/license.html
-
 %check
 # test to ensure that -j(X>1) didn't "break" man pages. b.f.u #2357
-if grep -q @VERSION@ source/tools/*/*.8 source/tools/*/*.1 source/config/*.1; then
+if grep -q @VERSION@ icu4c/source/tools/*/*.8 icu4c/source/tools/*/*.1 icu4c/source/config/*.1; then
     exit 1
 fi
-make %{?_smp_mflags} -C source check
+make %{?_smp_mflags} -C icu4c/source check
 
 %post -n lib%{name} -p /sbin/ldconfig
 
@@ -122,14 +125,13 @@ make %{?_smp_mflags} -C source check
 
 %files -n lib%{name}
 %defattr(-,root,root,-)
-%license license.html
+%license %{_datadir}/icu/%{upstream_version}/LICENSE
 %{_libdir}/*.so.*
 
 %files -n lib%{name}-devel
 %defattr(-,root,root,-)
 %{_bindir}/icu-config*
 %{_bindir}/icuinfo
-%{_includedir}/layout
 %{_includedir}/unicode
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/*.pc
