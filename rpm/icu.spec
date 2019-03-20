@@ -21,6 +21,7 @@ Tools and utilities for developing with icu.
 %package -n lib%{name}
 Summary: International Components for Unicode - libraries
 Group:   System Environment/Libraries
+Obsoletes: libicu52
 
 %description -n lib%{name}
 The International Components for Unicode (ICU) libraries provide
@@ -40,6 +41,7 @@ Group:    Development/Libraries
 Requires: lib%{name}%{?_isa} = %{version}-%{release}
 Requires: %{name} = %{version}-%{release}
 Requires: pkgconfig
+Obsoletes: libicu52-devel
 
 %description -n lib%{name}-devel
 Includes and definitions for developing with icu.
