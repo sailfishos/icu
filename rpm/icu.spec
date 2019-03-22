@@ -24,6 +24,7 @@ Group:   System Environment/Libraries
 Obsoletes: libicu52
 # Older rpm is still dependent on icu52, and will break if this replacement is done before it is upgraded
 Conflicts: rpm < 4.14.1+git8
+Requires(pre): rpm >= 4.14.1+git8
 
 %description -n lib%{name}
 The International Components for Unicode (ICU) libraries provide
