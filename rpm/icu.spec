@@ -7,7 +7,7 @@ Group:     Development/Tools
 License:   MIT and UCD and Public Domain
 URL:       http://www.icu-project.org/
 Source0:   %{name}-%{version}.tar.gz
-BuildRequires: autoconf, python, doxygen
+BuildRequires: autoconf, doxygen, fdupes
 Requires: lib%{name}%{?_isa} = %{version}-%{release}
 Obsoletes: icu52
 
@@ -104,6 +104,8 @@ make %{?_smp_mflags} -C icu4c/source install DESTDIR=$RPM_BUILD_ROOT
 make %{?_smp_mflags} -C icu4c/source install-doc \
      docdir=$RPM_BUILD_ROOT/%{_docdir}/%{name}-%{version}
 chmod +x $RPM_BUILD_ROOT%{_libdir}/*.so.*
+
+%fdupes $RPM_BUILD_ROOT
 
 %check
 # test to ensure that -j(X>1) didn't "break" man pages. b.f.u #2357
