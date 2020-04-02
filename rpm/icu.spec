@@ -1,30 +1,23 @@
-%define upstream_version 63.1
+%define upstream_version 66.1
 Name:      icu
 Version:   %{upstream_version}
 Release:   1
 Summary:   International Components for Unicode
-Group:     Development/Tools
 License:   MIT and UCD and Public Domain
 URL:       http://www.icu-project.org/
 Source0:   %{name}-%{version}.tar.gz
-BuildRequires: autoconf, doxygen, fdupes
+BuildRequires: autoconf, doxygen, python3-base
 Requires: lib%{name}%{?_isa} = %{version}-%{release}
-Obsoletes: icu52
 
 Patch1: 0001-disable-failing-test.patch
-# ICU-20246 - fixed in 63.2, 64.1
-Patch2: ICU-20246-integer-overflow.patch
+# CVE-2020-10531
+Patch2: 0001-ICU-20958-Prevent-SEGV_MAPERR-in-append.patch
 
 %description
 Tools and utilities for developing with icu.
 
 %package -n lib%{name}
 Summary: International Components for Unicode - libraries
-Group:   System Environment/Libraries
-Obsoletes: libicu52
-# Older rpm is still dependent on icu52, and will break if this replacement is done before it is upgraded
-Conflicts: rpm < 4.14.1+git8
-Requires(pre): rpm >= 4.14.1+git8
 
 %description -n lib%{name}
 The International Components for Unicode (ICU) libraries provide
@@ -40,18 +33,15 @@ customize the supplied services.
 
 %package  -n lib%{name}-devel
 Summary:  Development files for International Components for Unicode
-Group:    Development/Libraries
 Requires: lib%{name}%{?_isa} = %{version}-%{release}
 Requires: %{name} = %{version}-%{release}
 Requires: pkgconfig
-Obsoletes: libicu52-devel
 
 %description -n lib%{name}-devel
 Includes and definitions for developing with icu.
 
 %package -n lib%{name}-doc
 Summary: Documentation for International Components for Unicode
-Group:   Documentation
 BuildArch: noarch
 
 %description -n lib%{name}-doc
@@ -61,9 +51,7 @@ Documentation and man pages for International Components for Unicode.
 # " this line just fixes syntax highlighting for vim that is confused by the above and continues literal
 
 %prep
-%setup -q -n %{name}-%{version}/upstream
-%patch1 -p1
-%patch2 -p1
+%autosetup -p1 -n %{name}-%{version}/upstream
 
 %build
 cd icu4c/source
@@ -75,17 +63,10 @@ CXXFLAGS='%optflags -fno-strict-aliasing'
 CPPFLAGS='-DU_IS_BIG_ENDIAN=1'
 %endif
 #rhbz856594 do not use --disable-renaming or cope with the mess
-#test
 %configure --with-data-packaging=library --disable-samples --disable-renaming
+
 #rhbz#225896
 sed -i 's|-nodefaultlibs -nostdlib||' config/mh-linux
-#rhbz#681941
-#sed -i 's|^LIBS =.*|LIBS = -L../lib -licuuc -lpthread -lm|' i18n/Makefile
-#sed -i 's|^LIBS =.*|LIBS = -nostdlib -L../lib -licuuc -licui18n -lc -lgcc|' io/Makefile
-#sed -i 's|^LIBS =.*|LIBS = -nostdlib -L../lib -licuuc -lc|' layout/Makefile
-#sed -i 's|^LIBS =.*|LIBS = -nostdlib -L../lib -licuuc -licule -lc|' layoutex/Makefile
-#sed -i 's|^LIBS =.*|LIBS = -nostdlib -L../../lib -licutu -licuuc -lc|' tools/ctestfw/Makefile
-#sed -i 's|^LIBS =.*|LIBS = -nostdlib -L../../lib -licui18n -licuuc -lpthread -lc|' tools/toolutil/Makefile
 #rhbz#813484
 #sed -i 's| \$(docfilesdir)/installdox||' Makefile
 # There is no source/doc/html/search/ directory
@@ -104,8 +85,6 @@ make %{?_smp_mflags} -C icu4c/source install DESTDIR=$RPM_BUILD_ROOT
 make %{?_smp_mflags} -C icu4c/source install-doc \
      docdir=$RPM_BUILD_ROOT/%{_docdir}/%{name}-%{version}
 chmod +x $RPM_BUILD_ROOT%{_libdir}/*.so.*
-
-%fdupes $RPM_BUILD_ROOT
 
 %check
 # test to ensure that -j(X>1) didn't "break" man pages. b.f.u #2357
