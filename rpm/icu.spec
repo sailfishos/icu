@@ -1,17 +1,15 @@
-%define upstream_version 66.1
+%define upstream_version 68.2
 Name:      icu
 Version:   %{upstream_version}
 Release:   1
 Summary:   International Components for Unicode
 License:   MIT and UCD and Public Domain
-URL:       http://www.icu-project.org/
+URL:       http://site.icu-project.org/
 Source0:   %{name}-%{version}.tar.gz
 BuildRequires: autoconf, doxygen, python3-base
 Requires: lib%{name}%{?_isa} = %{version}-%{release}
 
-Patch1: 0001-disable-failing-test.patch
-# CVE-2020-10531
-Patch2: 0001-ICU-20958-Prevent-SEGV_MAPERR-in-append.patch
+Patch1: 0001-Disable-failing-tests.patch
 
 %description
 Tools and utilities for developing with icu.
@@ -76,13 +74,13 @@ sed -i 's|-nodefaultlibs -nostdlib||' config/mh-linux
 # icu/source/common/unicode/uconfig.h to propagate to consumer packages.
 test -f uconfig.h.prepend && sed -e '/^#define __UCONFIG_H__/ r uconfig.h.prepend' -i common/unicode/uconfig.h
 
-make %{?_smp_mflags}
-make %{?_smp_mflags} doc
+%make_build
+%make_build doc
 
 %install
 rm -rf $RPM_BUILD_ROOT icu4c/source/__docs
-make %{?_smp_mflags} -C icu4c/source install DESTDIR=$RPM_BUILD_ROOT
-make %{?_smp_mflags} -C icu4c/source install-doc \
+%make_build -C icu4c/source install DESTDIR=$RPM_BUILD_ROOT
+%make_build -C icu4c/source install-doc \
      docdir=$RPM_BUILD_ROOT/%{_docdir}/%{name}-%{version}
 chmod +x $RPM_BUILD_ROOT%{_libdir}/*.so.*
 
@@ -91,7 +89,7 @@ chmod +x $RPM_BUILD_ROOT%{_libdir}/*.so.*
 if grep -q @VERSION@ icu4c/source/tools/*/*.8 icu4c/source/tools/*/*.1 icu4c/source/config/*.1; then
     exit 1
 fi
-make %{?_smp_mflags} -C icu4c/source check
+%make_build -C icu4c/source check
 
 %post -n lib%{name} -p /sbin/ldconfig
 
