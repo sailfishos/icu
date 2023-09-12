@@ -1,4 +1,4 @@
-%define upstream_version 68.2
+%define upstream_version 70.1
 Name:      icu
 Version:   %{upstream_version}
 Release:   1
@@ -117,6 +117,7 @@ fi
 %defattr(-,root,root,-)
 %{_bindir}/icu-config*
 %{_bindir}/icuinfo
+%{_bindir}/icuexportdata
 %{_includedir}/unicode
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/*.pc
