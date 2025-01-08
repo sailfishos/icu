@@ -1,4 +1,4 @@
-%define upstream_version 70.1
+%define upstream_version 73.2
 Name:      icu
 Version:   %{upstream_version}
 Release:   1

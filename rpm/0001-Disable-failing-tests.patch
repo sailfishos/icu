@@ -28,10 +28,10 @@ index 5affa11703aa2c213fbb5cc1470fbb1c1b0ca30c..6be2ec0a458f1998b89e095c5eedd1fd
  ## List of phony targets
  .PHONY : everything all all-local all-recursive install install-local		\
 diff --git a/icu4c/source/test/cintltst/cloctst.c b/icu4c/source/test/cintltst/cloctst.c
-index 8707babbbee983bd00446aec1a37e0cc601de726..938ebc377afd5709a7a8f50dffd53d2505fe449e 100644
+index 3edd878513b01577f7e16cc240fa8739b18b0726..6c6b841d9fb74b3342aad2989a6c0dd0a7105cd3 100644
 --- a/icu4c/source/test/cintltst/cloctst.c
 +++ b/icu4c/source/test/cintltst/cloctst.c
-@@ -268,7 +268,7 @@ void addLocaleTest(TestNode** root)
+@@ -269,7 +269,7 @@ void addLocaleTest(TestNode** root)
      TESTCASE(TestToLanguageTag);
      TESTCASE(TestBug20132);
      TESTCASE(TestBug20149);
@@ -41,7 +41,7 @@ index 8707babbbee983bd00446aec1a37e0cc601de726..938ebc377afd5709a7a8f50dffd53d25
      TESTCASE(TestLangAndRegionCanonicalize);
      TESTCASE(TestTrailingNull);
 diff --git a/icu4c/source/test/cintltst/ucptrietest.c b/icu4c/source/test/cintltst/ucptrietest.c
-index af578f7a1a5dc42afa72bdd773872f92b7e261cf..09c0b583bfdd3240b7db9a7131910c21e90745bf 100644
+index 1a75a3a2f0dc2bc5bfe9775f6c1a1adda26ad555..4f3a7b6a6917905d8d72f86d2e97ad8cba2539fd 100644
 --- a/icu4c/source/test/cintltst/ucptrietest.c
 +++ b/icu4c/source/test/cintltst/ucptrietest.c
 @@ -1640,17 +1640,17 @@ static void ShortAllSameBlocksTest(void) {
@@ -72,15 +72,15 @@ index af578f7a1a5dc42afa72bdd773872f92b7e261cf..09c0b583bfdd3240b7db9a7131910c21
 +    //addTest(root, &ShortAllSameBlocksTest, "tsutil/ucptrietest/ShortAllSameBlocksTest");
  }
 diff --git a/icu4c/source/test/intltest/numbertest_api.cpp b/icu4c/source/test/intltest/numbertest_api.cpp
-index cf8fecc0a284ea2e14cab90a2468a4ff863da8ae..f98cf9594639fc7dc2f118ef53699813f1ed6a0d 100644
+index b9316d61cfe6394e98428c9bd219632c637792bd..8b5a9d7a770d23557fecb12328b60e230624ee95 100644
 --- a/icu4c/source/test/intltest/numbertest_api.cpp
 +++ b/icu4c/source/test/intltest/numbertest_api.cpp
-@@ -97,7 +97,7 @@ void NumberFormatterApiTest::runIndexedTest(int32_t index, UBool exec, const cha
+@@ -101,7 +101,7 @@ void NumberFormatterApiTest::runIndexedTest(int32_t index, UBool exec, const cha
          TESTCASE_AUTO(roundingFraction);
          TESTCASE_AUTO(roundingFigures);
          TESTCASE_AUTO(roundingFractionFigures);
 -        TESTCASE_AUTO(roundingOther);
 +        //TESTCASE_AUTO(roundingOther);
          TESTCASE_AUTO(roundingIncrementRegressionTest);
+         TESTCASE_AUTO(roundingPriorityCoverageTest);
          TESTCASE_AUTO(grouping);
-         TESTCASE_AUTO(padding);
