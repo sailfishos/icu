@@ -1,4 +1,4 @@
-%define upstream_version 70.1
+%define upstream_version 73.2
 Name:      icu
 Version:   %{upstream_version}
 Release:   1
@@ -96,7 +96,6 @@ fi
 %postun -n lib%{name} -p /sbin/ldconfig
 
 %files
-%defattr(-,root,root,-)
 %{_bindir}/derb
 %{_bindir}/genbrk
 %{_bindir}/gencfu
@@ -109,12 +108,10 @@ fi
 %{_sbindir}/*
 
 %files -n lib%{name}
-%defattr(-,root,root,-)
 %license %{_datadir}/icu/%{upstream_version}/LICENSE
 %{_libdir}/*.so.*
 
 %files -n lib%{name}-devel
-%defattr(-,root,root,-)
 %{_bindir}/icu-config*
 %{_bindir}/icuinfo
 %{_bindir}/icuexportdata
@@ -129,6 +126,5 @@ fi
 %{_datadir}/icu/%{upstream_version}/config
 
 %files -n lib%{name}-doc
-%defattr(-,root,root,-)
 %{_mandir}/man*/*.*
 %{_docdir}/%{name}-%{version}
