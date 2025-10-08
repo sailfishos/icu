@@ -4,7 +4,7 @@ Version:   %{upstream_version}
 Release:   1
 Summary:   International Components for Unicode
 License:   MIT and UCD and Public Domain
-URL:       http://site.icu-project.org/
+URL:       https://github.com/sailfishos/icu
 Source0:   %{name}-%{version}.tar.gz
 BuildRequires: autoconf, doxygen, python3-base
 Requires: lib%{name}%{?_isa} = %{version}-%{release}
@@ -45,7 +45,7 @@ BuildArch: noarch
 %description -n lib%{name}-doc
 Documentation and man pages for International Components for Unicode.
 
-%{!?endian: %global endian %(%{__python} -c "import sys;print (0 if sys.byteorder=='big' else 1)")}
+%{!?endian: %global endian %(%{__python3} -c "import sys;print (0 if sys.byteorder=='big' else 1)")}
 # " this line just fixes syntax highlighting for vim that is confused by the above and continues literal
 
 %prep
